@@ -1,0 +1,71 @@
+{
+  "name": "cfd-js-wasm",
+  "version": "0.1.0",
+  "domain": "cryptogarageinc",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cryptogarageinc/cfd-js-wasm.git"
+  },
+  "description": "Crypto Finance Development Kit for WebAssembly.",
+  "author": "Crypto Garage",
+  "homepage": "https://github.com/p2pderivatives/cfd-js-wasm",
+  "bugs": {
+    "url": "https://github.com/p2pderivatives/cfd-js-wasm/issues"
+  },
+  "license": "MIT",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "gypfile": false,
+  "scripts": {
+    "check_version": "node ./tools/checker.js version",
+    "example": "node wrap_js/example.js",
+    "elements_example": "node wrap_js/elements_example.js",
+    "elements_pegin_example": "node wrap_js/elements_pegin_example.js",
+    "ts_example": "ts-node wrap_js/ts_example.ts",
+    "test": "jest --no-cache",
+    "test_watch": "jest --no-cache --watch",
+    "test_quiet": "jest --no-cache --silent",
+    "test_logging": "jest --no-cache --silent=false --verbose false",
+    "format": "run-p code_format js_format",
+    "code_format": "clang-format -i --style=file src/*.cpp",
+    "js_format": "eslint --ext .js,.ts *.ts *.js tools/ wrap_js/ --fix",
+    "emcmake": "run-s cmake_clean emcmake_configure cmake_build_parallel",
+    "emcmake_configure": "run-script-os",
+    "emcmake_configure:win32": "emcmake cmake -S . -B build -G \"MinGW Makefiles\" -DENABLE_EMSCRIPTEN=on -DENABLE_SHARED=off -DENABLE_CAPI=off -DENABLE_TESTS=off -DENABLE_ELEMENTS=on -DGENERATE_WALLY=on -DENABLE_JS_WRAPPER=off -DCMAKE_BUILD_TYPE=Release",
+    "emcmake_configure:linux": "emcmake cmake -S . -B build -G \"Unix Makefiles\" -DENABLE_EMSCRIPTEN=on -DENABLE_SHARED=off -DENABLE_CAPI=off -DENABLE_TESTS=off -DENABLE_ELEMENTS=on -DGENERATE_WALLY=on -DENABLE_JS_WRAPPER=off -DCMAKE_BUILD_TYPE=Release",
+    "emcmake_configure:darwin": "emcmake cmake -S . -B build -G \"Unix Makefiles\" -DENABLE_EMSCRIPTEN=on -DENABLE_SHARED=off -DENABLE_CAPI=off -DENABLE_TESTS=off -DENABLE_ELEMENTS=on -DGENERATE_WALLY=on -DENABLE_JS_WRAPPER=off -DCMAKE_BUILD_TYPE=Release",
+    "cmake_build_parallel": "cmake --build build --parallel 2 --config Release",
+    "cmake_build_parallel_quick": "cmake --build build --parallel --config Release",
+    "cmake_clean": "del -d -f build",
+    "doxygen_check": "run-script-os",
+    "doxygen_check:win32": "cd doc && doxygen Doxyfile_quiet_all && rmdir /S /Q html_all_quiet",
+    "doxygen_check:linux": "cd doc && doxygen Doxyfile_quiet_all && rm -rf html_all_quiet",
+    "doxygen_check:darwin": "cd doc && doxygen Doxyfile_quiet_all && rm -rf html_all_quiet",
+    "lint_all": "run-s lint_check eslint_check",
+    "lint_check": "run-script-os",
+    "lint_check:win32": "cd tools && lint_all_quiet.bat",
+    "lint_check:linux": "cd tools && ./lint_quiet.sh",
+    "lint_check:darwin": "cd tools && ./lint_quiet.sh",
+    "eslint_check": "eslint --ext .js,.ts *.ts *.js wrap_js/",
+    "check": "run-s doxygen_check lint_all example elements_example ts_example",
+    "convert_json": "ts-node ./tools/generate_json_map_class.ts",
+    "convert_json_debug": "ts-node ./tools/generate_json_map_class.ts mode=debug"
+  },
+  "dependencies": {
+    "@types/node": "^13.11.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.26.0",
+    "@typescript-eslint/parser": "^2.26.0",
+    "del-cli": "^3.0.1",
+    "eslint": "^6.8.0",
+    "eslint-config-google": "^0.14.0",
+    "jest": "^26.1.0",
+    "kind-of": ">=6.0.3",
+    "minimist": ">=1.2.5",
+    "npm-run-all": "^4.1.5",
+    "run-script-os": "^1.1.1",
+    "ts-morph": "^7.0.1",
+    "ts-node": "^8.8.2"
+  }
+}
