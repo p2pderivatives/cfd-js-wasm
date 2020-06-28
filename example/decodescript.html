@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>DecodeRawTransaction</title>
+    <title>DecodeScript</title>
     <style>
       #main {
         display: flex;
@@ -12,10 +12,10 @@
         height: 120vh;
         font-family: sans-serif;
       }
-      .decoderawtxInput {
+      .decodeInput {
         width: 99%;
       }
-      .decoderawtxOutput {
+      .decodeOutput {
         width: 99%;
       }
       .decodetx-output {
@@ -42,30 +42,23 @@
     </style>
   </head>
   <body>
-    <div class="decodetx">
-      <h3 class="decodetx-title">DecodeRawTransaction</h3>
-      <div class="decodetx-input">
+    <div class="decode">
+      <h3 class="decode-title">DecodeScript</h3>
+      <div class="decode-input">
         <div>
-          network: <select name="network" id="network">
-          <option value="mainnet">mainnet</option>
-          <option value="testnet">testnet</option>
-          <option value="regtest">regtest</option>
-          <option value="liquidv1">liquidv1</option>
-          <option value="elementsregtest">elementsRegTest</option>
-          </select><br>
-          <div class="decodetx-label">Input tx hex:</div>
-          <textarea rows="10" id="inputTx" class="decoderawtxInput"></textarea><br>
+          <div class="decode-label">Input script hex:</div>
+          <textarea rows="10" id="inputData" class="decodeInput"></textarea><br>
           <input type="button" name="decode" id="execDecode" value="Decode" />
         </div>
-        <div class="decodetx-output">
-          <div class="decodetx-label">Tx JSON:</div>
-          <textarea rows="40" id="decodedtx" class="decoderawtxOutput" readonly></textarea>
+        <div class="decode-output">
+          <div class="decode-label">Script:</div>
+          <textarea rows="20" id="decoded" class="decodeOutput" readonly></textarea>
         </div>
       </div>
     </div>
 
     <script src="/cfd-js-wasm/dist/cfdjs_wasm.js"></script>
     <script src="/cfd-js-wasm/cfdjs_wasm_jsonapi.js"></script>
-    <script src="decoderawtransaction.js"></script>
+    <script src="decodescript.js"></script>
   </body>
 </html>
