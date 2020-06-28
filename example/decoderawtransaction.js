@@ -1,11 +1,22 @@
 const updateField = async function(event) {
   const inputTx = document.getElementById("inputTx");
   const decodedtx = document.getElementById("decodedtx");
+  const networkObj = document.getElementById("network");
+  const selectedNetworkIdx = networkObj.selectedIndex;
+  let networkValue = networkObj.options[selectedNetworkIdx].value;
+  let network = networkValue;
+
   try {
+    let mainchainNetwork = 'regtest';
+    network = 'regtest';
+    if ((networkValue === 'mainnet') || (networkValue === 'liquidv1')) {
+      network = 'liquidv1';
+      mainchainNetwork = 'mainnet';
+    }
     const req = {
       hex: inputTx.value,
-      network: 'liquidregtest',
-      mainchainNetwork: 'regtest',
+      network,
+      mainchainNetwork,
     };
     const resp = await callJsonApi(Module, 'ElementsDecodeRawTransaction', req);
     decodedtx.value = JSON.stringify(resp, (key, value) =>
@@ -15,9 +26,15 @@ const updateField = async function(event) {
   }
 
   try {
+    network = networkValue;
+    if (networkValue === 'liquidv1') {
+      network = 'mainnet';
+    } else if (networkValue === 'elementsregtest') {
+      network = 'regtest';
+    }
     const req = {
       hex: inputTx.value,
-      network: 'regtest',
+      network,
     };
     const resp = await callJsonApi(Module, 'DecodeRawTransaction', req);
     decodedtx.value = JSON.stringify(resp, (key, value) =>
