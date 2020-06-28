@@ -1,6 +1,10 @@
 # Crypto Finance Development Kit for WebAssembly (CFD-JS-WASM)
 
-JavaScript wrapper of cfd libraries
+WebAssembly of cfd libraries (by JSON format API)
+
+## WebAssembly Example
+
+- [example](./example/index.html)
 
 <!-- TODO: Write Summary and Overview
 
