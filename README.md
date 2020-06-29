@@ -12,46 +12,40 @@ WebAssembly of cfd libraries (by JSON format API)
 
 -->
 
-## Dependencies
-
-- C/C++ Compiler
-  - can compile c++11
-- Clang (10.0.0 or higher)
-- CMake (3.14.3 or higher)
-- Python 3.x
-- node.js (stable version)
-- emscripten (1.39.10 or higher)
-
 ---
 
 ## Use case
 
-### add dependencies on package.json
+### use web page development
 
-Add cfd-js-wasm github on caller app's package.json.
+Copy the wasm file in the dist folder. For access to wasm, copy'cfdjs_wasm_json.js' or make your own.
+Copy cfdjs_wasm_jsonapi.js if necessary.
 
-ex)
+### add dependencies on package.json (node.js or electron)
+
+Add github's cfd-js-wasm path on caller app's package.json:
 ```
   "cfd-js-wasm": "github:cryptogarageinc/cfd-js-wasm#semver:^0.1.0",
 ```
 
-If you use old npm or yarn, describe as follows.
-
-ex)
+If you use old npm or yarn, describe as follows:
 ```
-  "cfd-js": "git+https://github.com/cryptogarageinc/cfd-js-wasm#semver:^0.1.0",
+  "cfd-js-wasm": "git+https://github.com/cryptogarageinc/cfd-js-wasm#semver:^0.1.0",
 ```
-
-### copy direct file
-
-Copy the wasm file in the build/Release folder.
-
-
-For access to wasm, copy'cfdjs_wasm_json.js' or make your own.
 
 ---
 
 ## for Developper
+
+### Dependencies
+
+- Clang (10.0.0 or higher)
+- C/C++ Compiler
+  - can compile c++11
+- CMake (3.14.3 or higher)
+- Python (3.8 or higher)
+- node.js (12.8 or higher)
+- emscripten (1.39.10 or higher)
 
 ### Build
 
@@ -61,8 +55,14 @@ WebAssembly does not depend on the execution environment.
 You can use it in any environment by building it on Docker.
 
 ```
-docker run .
+docker-compose build
+docker-compose up
 ```
+
+- attention
+  If you get an error, do the following:
+  1. remove external/libwally-core
+  2. remove node_modules
 
 #### local build
 
@@ -83,17 +83,19 @@ npm run test
 
 ### Example
 
+#### web Example
+
+Show [github pages](https://cryptogarageinc.github.io/cfd-js-wasm/example/index.html).
+
+#### node.js Example
+
 ```
 npm run example
-```
-
-#### Elements
-
-```
 npm run elements_example
+npm run ts_example
 ```
 
-## Note
+## Developper Note
 
 ### Git connection:
 
@@ -109,21 +111,6 @@ set CFD_CMAKE_GIT_SSH=1
 - MacOS & Linux(Ubuntu):
 ```
 export CFD_CMAKE_GIT_SSH=1
-```
-
-### For installed fail:
-
-If the shared library you downloaded cannot be referenced and the build fails, do a full build without downloading the shared library.
-Prevents the download of the shared library by setting `CFDJS_UNUSE_ASSET=1` in the environment variable.
-
-- Windows: (On the command line. Or set from the system setting screen.)
-```
-set CFDJS_UNUSE_ASSET=1
-```
-
-- MacOS & Linux(Ubuntu):
-```
-export CFDJS_UNUSE_ASSET=1
 ```
 
 ### Ignore git update for CMake External Project:
