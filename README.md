@@ -95,6 +95,30 @@ npm run elements_example
 npm run ts_example
 ```
 
+---
+
+## Information for developpers
+
+### using library
+
+- cfd-js
+
+### formatter
+
+- clang-format (using v10.0.0)
+- eslint
+
+### linter
+
+- cpplint
+- eslint
+
+### document tool
+
+- doxygen & graphviz
+
+---
+
 ## Developper Note
 
 ### Git connection:
