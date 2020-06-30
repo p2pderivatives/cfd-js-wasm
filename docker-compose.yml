@@ -1,0 +1,17 @@
+version: '3.5'
+
+services:
+  wasm-build:
+    container_name: 'cfdjs-wasm-builder'
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: cfdWasmBuilder
+    environment:
+      WASM_SRC: /private/cfd-js-wasm
+      WASM_WORK: /private/work
+    working_dir: /private/cfd-js-wasm
+    volumes:
+      - /private/work
+      - .:/private/cfd-js-wasm
+    entrypoint: /private/cfd-js-wasm/tools/build_for_release.sh

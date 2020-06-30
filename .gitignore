@@ -205,3 +205,4 @@ external/*
 
 /doc/*.bat
 /tools/*localdebug.bat
+/temp
