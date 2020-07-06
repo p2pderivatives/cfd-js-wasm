@@ -1,0 +1,67 @@
+name: create-release-upload
+
+on: 
+  push:
+    tags:
+    - 'v*'
+
+jobs:
+  create-releases:
+    name: create-releases
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+    - name: Get the version
+      id: get_version
+      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        body: |
+          Changes in this Release
+          - First Change
+          - Second Change
+        draft: false
+        prerelease: false
+#      continue-on-error: true
+    - name: create archive file
+      env:
+        TAR_NAME: cfdwasm-${{ steps.get_version.outputs.VERSION }}-0.tar
+      run: |
+        mkdir work
+        cp -rp dist/* work
+        cp cfdjs_wasm_jsonapi.js work
+        cd work
+        zip -r ../cfd.zip .
+        tar -cvf ../$TAR_NAME *
+        cd ..
+        gzip $TAR_NAME
+        echo "---- dump file ----"
+        ls -l
+    - name: Upload Release Asset by zip
+      uses: actions/upload-release-asset@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./cfd.zip
+        asset_name: cfdwasm-${{ steps.get_version.outputs.VERSION }}-0.zip
+        asset_content_type: application/zip
+    - name: Upload Release Asset by tgz
+      uses: actions/upload-release-asset@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        TAR_NAME: cfdwasm-${{ steps.get_version.outputs.VERSION }}-0.tar
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./${{ env.TAR_NAME }}.gz
+        asset_name: ${{ env.TAR_NAME }}.gz
+        asset_content_type: application/gzip
+
