@@ -1,0 +1,8 @@
+# auto generated files
+build/**
+wally.js
+
+# external project
+external/
+
+index.d.ts

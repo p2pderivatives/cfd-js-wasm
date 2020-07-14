@@ -1,0 +1,94 @@
+name: pre-merge check
+
+on: 
+  push:
+    branches:
+    - master
+    - develop
+    - features/sprint*
+  pull_request:
+    branches:
+    - master
+    - develop
+    - features/sprint*
+
+jobs:
+  wasm-test:
+    name: wasm test
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [8, 12, 14]
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2.1.0
+      continue-on-error: true
+      timeout-minutes: 1
+      with:
+        node-version: ${{ matrix.node }}
+    - name: setup-node retry
+      uses: actions/setup-node@v2.1.0
+      timeout-minutes: 1
+      with:
+        node-version: ${{ matrix.node }}
+    - name: dump node version
+      id: node_ver
+      run: |
+        export node_ver="$(node --version)"
+        echo "::set-output name=node_version::$node_ver"
+        echo "node_version=$node_ver"
+      shell: bash
+    - name: node_modules-useCache
+      uses: actions/cache@v1
+      id: node_cache
+      with:
+        path: node_modules
+        key: node-${{ runner.os }}-${{ matrix.node }}-${{ steps.node_ver.outputs.node_version }}-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: node-${{ runner.os }}-${{ matrix.node }}-${{ steps.node_ver.outputs.node_version }}-${{ hashFiles('**/package-lock.json') }}
+    - name: npm info
+      if: steps.node_cache.outputs.cache-hit != 'true'
+      id: npm_info
+      run: |
+        npm --version
+        echo "::set-output name=npm_cachedir::$(npm config get cache)"
+    - name: use npm cache
+      if: steps.node_cache.outputs.cache-hit != 'true'
+      uses: actions/cache@v1
+      id: npm_cache
+      with:
+        path: ${{ steps.npm_info.outputs.npm_cachedir }}
+        key: npm-${{ runner.os }}-${{ matrix.node }}-${{ steps.node_ver.outputs.node_version }}-0
+        restore-keys: |
+          npm-${{ runner.os }}-${{ matrix.node }}-${{ steps.node_ver.outputs.node_version }}-
+    - name: npm_install
+      if: steps.node_cache.outputs.cache-hit != 'true'
+      env:
+        CFDJS_UNUSE_ASSET: true
+      run: |
+        npm set progress=false
+        npm ci
+    - name: example
+      run: |
+        npm run example
+        npm run elements_example
+    - name: ts example
+      if: matrix.node != 8
+      run: npm run ts_example
+    - name: lint_check
+      if: runner.os != 'macOS'
+      run: npm run lint_all
+
+  doxygen-ubuntu:
+    name: doxygen-ubuntu
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: install_doxygen
+      run: sudo apt install doxygen graphviz
+    - name: doxygen_check
+      run: |
+        cd doc
+        doxygen Doxyfile_quiet_all
