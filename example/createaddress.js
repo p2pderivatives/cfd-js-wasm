@@ -2,16 +2,14 @@ const updateField = async function(event) {
   const inputTx = document.getElementById("inputTx");
   const decoded = document.getElementById("decoded");
   const networkObj = document.getElementById("network");
-  const txid = document.getElementById("txid");
-  const vout = document.getElementById("vout");
-  const addr = document.getElementById("address");
+  const typeObj = document.getElementById("type");
+  const key = document.getElementById("key");
+  const ctkey = document.getElementById("ctkey");
   const selectedNetworkIdx = networkObj.selectedIndex;
+  const selectedTypeIdx = typeObj.selectedIndex;
   let networkValue = networkObj.options[selectedNetworkIdx].value;
   let network = networkValue;
-  let address = '';
-  let descriptor = '';
-  let amount = 0;
-  let commitment = '';
+  let hashType = typeObj.options[selectedTypeIdx].value;
 
   let isElements = true;
   if ((network === 'mainnet') || (network === 'testnet') || (network === 'regtest')) {
@@ -19,43 +17,40 @@ const updateField = async function(event) {
   } else if (network === 'elementsregtest') {
     network = 'regtest';
   }
+  let keyType = 'redeem_script';
+  if (hashType.indexOf('pkh') > 0) {
+    keyType = 'pubkey';
+  }
+  let addrInfo;
   try {
     const req = {
-      descriptor: addr.value,
       isElements,
+      keyData: {
+        hex: key.value,
+        type: keyType,
+      },
       network,
+      hashType,
     };
-    await callJsonApi(Module, 'ParseDescriptor', req);
-    descriptor = addr.value;
+    addrInfo = await callJsonApi(Module, 'CreateAddress', req);
   } catch (e) {
-    address = addr.value;
-  }
-
-  const value = document.getElementById("amount");
-  if (value.value.length == 66) {
-    commitment = value.value;
-  } else {
-    amount = parseInt(value.value);
+    decoded.value = 'Invalid data format';
+    return;
   }
 
   try {
-    const req = {
-      tx: inputTx.value,
-      isElements,
-      txins: [{
-        txid: txid.value,
-        vout: parseInt(vout.value),
-        address: address,
-        amount: amount,
-        descriptor: descriptor,
-        confidentialValueCommitment: commitment,
-      }],
-    };
-    const resp = await callJsonApi(Module, 'VerifySign', req);
-    decoded.value = JSON.stringify(resp, (key, value) =>
+    if (isElements && (ctkey.value.length > 0)) {
+      const req = {
+        unblindedAddress: addrInfo.address,
+        key: ctkey.value,
+      };
+      const ctAddr = await callJsonApi(Module, 'GetConfidentialAddress', req);
+      addrInfo['confidentialAddress'] = ctAddr.confidentialAddress;
+    }
+    decoded.value = JSON.stringify(addrInfo, (key, value) =>
             typeof value === 'bigint' ? value.toString() : value, '  ');
   } catch (e) {
-    decoded.value = 'Invalid transaction format';
+    decoded.value = 'Invalid confidential key format';
   }
 }
 
