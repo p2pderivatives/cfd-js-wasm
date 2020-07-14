@@ -4,7 +4,7 @@ WebAssembly of cfd libraries (by JSON format API)
 
 ## WebAssembly Example
 
-- [example](https://cryptogarageinc.github.io/cfd-js-wasm/example/index.html)
+- [example](https://p2pderivatives.github.io/cfd-js-wasm/example/index.html)
 
 <!-- TODO: Write Summary and Overview
 
@@ -25,12 +25,12 @@ Copy cfdjs_wasm_jsonapi.js if necessary.
 
 Add github's cfd-js-wasm path on caller app's package.json:
 ```
-  "cfd-js-wasm": "github:cryptogarageinc/cfd-js-wasm#semver:^0.1.0",
+  "cfd-js-wasm": "github:p2pderivatives/cfd-js-wasm#semver:^0.1.0",
 ```
 
 If you use old npm or yarn, describe as follows:
 ```
-  "cfd-js-wasm": "git+https://github.com/cryptogarageinc/cfd-js-wasm#semver:^0.1.0",
+  "cfd-js-wasm": "git+https://github.com/p2pderivatives/cfd-js-wasm#semver:^0.1.0",
 ```
 
 ---
@@ -85,7 +85,7 @@ npm run test
 
 #### web Example
 
-Show [github pages](https://cryptogarageinc.github.io/cfd-js-wasm/example/index.html).
+Show [github pages](https://p2pderivatives.github.io/cfd-js-wasm/example/index.html).
 
 #### node.js Example
 

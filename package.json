@@ -1,10 +1,10 @@
 {
   "name": "cfd-js-wasm",
   "version": "0.1.0",
-  "domain": "cryptogarageinc",
+  "domain": "p2pderivatives",
   "repository": {
     "type": "git",
-    "url": "https://github.com/cryptogarageinc/cfd-js-wasm.git"
+    "url": "https://github.com/p2pderivatives/cfd-js-wasm.git"
   },
   "description": "Crypto Finance Development Kit for WebAssembly.",
   "author": "Crypto Garage",
