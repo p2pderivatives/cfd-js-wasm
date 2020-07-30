@@ -13,24 +13,24 @@ interface JsonObjectCommonType {
 
 interface ClassMapType {
   [key: string]: any;
-}
+};
 
 interface CollectMapDataResponse {
   type: string;
   map: ClassMapType;
   list: any[];
-}
+};
 
 interface ParameterType {
   name: string;
   type: string;
-}
+};
 
 interface TsAppendFunctionData {
   name: string;
   parameters: ParameterType[];
   returnType: string;
-}
+};
 
 // ----------------------------------------------------------------------------
 // debug log function
@@ -1295,7 +1295,8 @@ const generateTsData = (dirname: string, filename: string,
     jsonClassMap: ClassMapType, jsonTypeList: any[],
     functionList: string | any[], loadCfdjsIndexFile: fs.PathLike,
     promiseMode: boolean, tsClassName: string,
-    insertFunctions: TsAppendFunctionData[]) => {
+    insertFunctions: TsAppendFunctionData[],
+    insertErrorFunctions: TsAppendFunctionData[]) => {
   let outPath = `${dirname}/${filename}`;
   if (outPath.startsWith(__dirname)) {
     outPath = outPath.substr(__dirname.length);
@@ -1330,6 +1331,9 @@ const generateTsData = (dirname: string, filename: string,
     if (errorObj !== undefined) {
       errorObj.remove();
     }
+  } else {
+    file.insertStatements(0, '/* eslint-disable max-len */');
+    file.insertStatements(1, '/* eslint-disable require-jsdoc */');
   }
 
   for (let i = 0; i < jsonTypeList.length; ++i) {
@@ -1387,6 +1391,29 @@ const generateTsData = (dirname: string, filename: string,
     });
   }
 
+  const errorClassObj = file.addClass({
+    name: 'CfdError',
+    isExported: true,
+  });
+  errorClassObj.setExtends('Error');
+  for (let i = 0; i < insertErrorFunctions.length; ++i) {
+    const funcName = insertErrorFunctions[i].name;
+    const params = insertErrorFunctions[i].parameters;
+    const retType = insertErrorFunctions[i].returnType;
+    if (funcName == 'constructor') {
+      errorClassObj.addConstructor({
+        parameters: params,
+        returnType: retType,
+      });
+    } else {
+      errorClassObj.addMethod({
+        name: funcName,
+        parameters: params,
+        returnType: retType,
+      });
+    }
+  }
+
   // asynchronously save all the changes above
   project.save().then(() => console.log(`output: ${outPath}`));
 };
@@ -1430,6 +1457,32 @@ function convertFile() {
     name: 'getCfd',
     parameters: [],
     returnType: 'Cfdjs',
+  }];
+  const insertErrorFunctions: TsAppendFunctionData[] = [{
+    name: 'constructor',
+    parameters: [{
+      name: 'message',
+      type: 'string',
+    }, {
+      name: 'errorInformation',
+      type: 'InnerErrorResponse',
+    }, {
+      name: 'cause',
+      type: 'Error',
+    }],
+    returnType: 'void',
+  }, {
+    name: 'toString',
+    parameters: [],
+    returnType: 'string',
+  }, {
+    name: 'getErrorInformation',
+    parameters: [],
+    returnType: 'InnerErrorResponse',
+  }, {
+    name: 'getCause',
+    parameters: [],
+    returnType: 'Error',
   }];
 
   if (fs.existsSync(cfdPath) && fs.statSync(cfdPath).isDirectory()) {
@@ -1535,7 +1588,7 @@ function convertFile() {
       }
       generateTsData(outTsFolderPath, outTsFileName, jsonClassMap,
           jsonTypeList, functionList, loadCfdjsIndexFile, promiseMode,
-          tsClassName, insertFunctions);
+          tsClassName, insertFunctions, insertErrorFunctions);
     }
   });
 };

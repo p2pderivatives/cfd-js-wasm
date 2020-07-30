@@ -9,7 +9,7 @@ services:
       target: cfdWasmBuilder
     environment:
       WASM_SRC: /private/cfd-js-wasm
-      WASM_WORK: /private/work
+      WASM_WORK: /private/work/cfd-js-wasm
     working_dir: /private/cfd-js-wasm
     volumes:
       - /private/work

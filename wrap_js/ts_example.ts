@@ -94,5 +94,31 @@ const initFunc = async function() {
         });
     console.log('\n*** Decode ***\n', JSON.stringify(decodeResult, null, '  '), '\n');
   }
+
+  // CreateMultisig on error
+  {
+    console.log('\n===== CreateMultisig (error) =====');
+    const reqJson: cfdjs.CreateMultisigRequest = {
+      nrequired: 2,
+      keys: [
+        '0205ffcdde75f262d66ada3dd877c7471f8f8ee9ee24d917c3e18d01cee458bafe',
+        '02be61f4350b4ae7544f99649a917f48ba16cf48c983ac1599774958d88ad17ec5',
+      ],
+      network: 'invalidNetwork',
+      hashType: 'p2wsh',
+    };
+    try {
+      console.log('*** Request ***\n', reqJson);
+      await cfdjsObj.CreateMultisig(reqJson);
+      console.log('\n*** Error! current route is fail pattern. ***\n');
+    } catch (e) {
+      if (e instanceof cfdjs.CfdError) {
+        console.log('receive CfdError. errInfo:', e.getErrorInformation());
+      } else {
+        console.log('exception type check error.');
+        console.log(e);
+      }
+    }
+  }
 };
 cfdjs.addInitializedListener(initFunc);
