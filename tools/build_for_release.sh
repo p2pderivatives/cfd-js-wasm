@@ -63,3 +63,7 @@ if [ $? -gt 0 ]; then
 fi
 
 cp ./build/Release/cfdjs_wasm.* $BASEDIR/dist/
+
+npm install
+npm run convert_json
+cp ./index.d.ts $BASEDIR/index.d.ts

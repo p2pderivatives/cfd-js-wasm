@@ -7,7 +7,8 @@ cfdjsWasm['onRuntimeInitialized'] = async () => {
   const funcNameResult = await cfdjsWasmJsonApi.ccallCfd(cfdjsWasm,
       cfdjsWasm._cfdjsGetJsonApiNames, 'string', [], []);
   if (funcNameResult.indexOf('Error:') >= 0) {
-    throw new Error(`cfdjsGetJsonApiNames internal error. ${funcNameResult}`);
+    throw new cfdjsWasmJsonApi.CfdError(
+        `cfdjsGetJsonApiNames internal error. ${funcNameResult}`);
   }
   const funcList = funcNameResult.split(',');
 
@@ -15,7 +16,7 @@ cfdjsWasm['onRuntimeInitialized'] = async () => {
   funcList.forEach((requestName) => {
     const hook = async function(...args) {
       if (args.length > 1) {
-        throw Error('ERROR: Invalid argument passed:' +
+        throw new cfdjsWasmJsonApi.CfdError('ERROR: Invalid argument passed:' +
           `func=[${requestName}], args=[${args}]`);
       }
       let arg = '';
@@ -41,3 +42,4 @@ cfdjsWasm['onRuntimeInitialized'] = async () => {
 };
 
 module.exports = wrappedModule;
+module.exports.CfdError = cfdjsWasmJsonApi.CfdError;

@@ -1,6 +1,6 @@
 {
   "name": "cfd-js-wasm",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "domain": "p2pderivatives",
   "repository": {
     "type": "git",
@@ -18,9 +18,8 @@
   "gypfile": false,
   "scripts": {
     "check_version": "node ./tools/checker.js version",
-    "example": "node wrap_js/example.js",
-    "elements_example": "node wrap_js/elements_example.js",
-    "elements_pegin_example": "node wrap_js/elements_pegin_example.js",
+    "example": "node wrap_js/example.js example",
+    "elements_example": "node wrap_js/example.js elements_example",
     "ts_example": "ts-node wrap_js/ts_example.ts",
     "test": "jest --no-cache",
     "test_watch": "jest --no-cache --watch",

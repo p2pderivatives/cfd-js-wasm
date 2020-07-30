@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable require-jsdoc */
 export interface MultisigSignData {
     hex: string;
     type?: string;
@@ -1006,19 +1008,6 @@ export interface FundRawTransactionResponse {
     feeAmount?: bigint;
 }
 
-export interface GetAddressInfoRequest {
-    address: string;
-    isElements?: boolean;
-}
-
-export interface GetAddressInfoResponse {
-    lockingScript: string;
-    network: string;
-    hashType: string;
-    witnessVersion?: number;
-    hash?: string;
-}
-
 export interface GetAddressesFromMultisigRequest {
     isElements?: boolean;
     redeemScript: string;
@@ -1030,6 +1019,19 @@ export interface GetAddressesFromMultisigResponse {
     addresses: string[];
     pubkeys: string[];
     requireNum: number;
+}
+
+export interface GetAddressInfoRequest {
+    address: string;
+    isElements?: boolean;
+}
+
+export interface GetAddressInfoResponse {
+    lockingScript: string;
+    network: string;
+    hashType: string;
+    witnessVersion?: number;
+    hash?: string;
 }
 
 export interface GetCommitmentRequest {
@@ -1443,6 +1445,7 @@ export interface VerifySignRequest {
 export interface FailSignTxIn {
     txid: string;
     vout: number;
+    reason: string;
 }
 
 export interface VerifySignResponse {
@@ -1515,8 +1518,8 @@ export class Cfdjs {
     EncodeSignatureByDer(jsonObject: EncodeSignatureByDerRequest): Promise<EncodeSignatureByDerResponse>;
     EstimateFee(jsonObject: EstimateFeeRequest): Promise<EstimateFeeResponse>;
     FundRawTransaction(jsonObject: FundRawTransactionRequest): Promise<FundRawTransactionResponse>;
-    GetAddressInfo(jsonObject: GetAddressInfoRequest): Promise<GetAddressInfoResponse>;
     GetAddressesFromMultisig(jsonObject: GetAddressesFromMultisigRequest): Promise<GetAddressesFromMultisigResponse>;
+    GetAddressInfo(jsonObject: GetAddressInfoRequest): Promise<GetAddressInfoResponse>;
     GetCommitment(jsonObject: GetCommitmentRequest): Promise<GetCommitmentResponse>;
     GetCompressedPubkey(jsonObject: GetCompressedPubkeyRequest): Promise<GetCompressedPubkeyResponse>;
     GetDefaultBlindingKey(jsonObject: GetDefaultBlindingKeyRequest): Promise<GetDefaultBlindingKeyResponse>;
@@ -1548,3 +1551,10 @@ export class Cfdjs {
 export function addInitializedListener(func: () => Promise<void>): void;
 
 export function getCfd(): Cfdjs;
+
+export class CfdError extends Error {
+    constructor(message: string, errorInformation: InnerErrorResponse, cause: Error);
+    toString(): string;
+    getErrorInformation(): InnerErrorResponse;
+    getCause(): Error;
+}
