@@ -75,6 +75,10 @@ npm install
 npm run emcmake
 ```
 
+---
+
+## Test and Example
+
 ### Test
 
 ```Shell
@@ -102,6 +106,10 @@ npm run ts_example
 ### using library
 
 - cfd-js
+  - cfd
+    - cfd-core
+      - [libwally-core](https://github.com/cryptogarageinc/libwally-core/tree/cfd-develop) (forked from [ElementsProject/libwally-core](https://github.com/ElementsProject/libwally-core))
+      - [univalue](https://github.com/jgarzik/univalue) (for JSON encoding and decoding)
 
 ### formatter
 

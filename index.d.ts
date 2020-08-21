@@ -1008,19 +1008,6 @@ export interface FundRawTransactionResponse {
     feeAmount?: bigint;
 }
 
-export interface GetAddressesFromMultisigRequest {
-    isElements?: boolean;
-    redeemScript: string;
-    network?: string;
-    hashType?: string;
-}
-
-export interface GetAddressesFromMultisigResponse {
-    addresses: string[];
-    pubkeys: string[];
-    requireNum: number;
-}
-
 export interface GetAddressInfoRequest {
     address: string;
     isElements?: boolean;
@@ -1032,6 +1019,19 @@ export interface GetAddressInfoResponse {
     hashType: string;
     witnessVersion?: number;
     hash?: string;
+}
+
+export interface GetAddressesFromMultisigRequest {
+    isElements?: boolean;
+    redeemScript: string;
+    network?: string;
+    hashType?: string;
+}
+
+export interface GetAddressesFromMultisigResponse {
+    addresses: string[];
+    pubkeys: string[];
+    requireNum: number;
 }
 
 export interface GetCommitmentRequest {
@@ -1518,8 +1518,8 @@ export class Cfdjs {
     EncodeSignatureByDer(jsonObject: EncodeSignatureByDerRequest): Promise<EncodeSignatureByDerResponse>;
     EstimateFee(jsonObject: EstimateFeeRequest): Promise<EstimateFeeResponse>;
     FundRawTransaction(jsonObject: FundRawTransactionRequest): Promise<FundRawTransactionResponse>;
-    GetAddressesFromMultisig(jsonObject: GetAddressesFromMultisigRequest): Promise<GetAddressesFromMultisigResponse>;
     GetAddressInfo(jsonObject: GetAddressInfoRequest): Promise<GetAddressInfoResponse>;
+    GetAddressesFromMultisig(jsonObject: GetAddressesFromMultisigRequest): Promise<GetAddressesFromMultisigResponse>;
     GetCommitment(jsonObject: GetCommitmentRequest): Promise<GetCommitmentResponse>;
     GetCompressedPubkey(jsonObject: GetCompressedPubkeyRequest): Promise<GetCompressedPubkeyResponse>;
     GetDefaultBlindingKey(jsonObject: GetDefaultBlindingKeyRequest): Promise<GetDefaultBlindingKeyResponse>;
