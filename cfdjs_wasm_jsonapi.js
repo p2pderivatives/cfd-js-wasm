@@ -177,7 +177,8 @@ const ccallCfd = async function(module, func, returnType, argTypes, args) {
   return ret;
 };
 
-const callJsonApi = async function(wasmModule, reqName, arg) {
+const callJsonApi = async function(
+    wasmModule, reqName, arg, hasThrowExcept = true) {
   let retObj;
   try {
     // stringify all arguments
@@ -196,7 +197,7 @@ const callJsonApi = async function(wasmModule, reqName, arg) {
       ` func=[${reqName}], arg=[${arg}]`, undefined, err);
   }
 
-  if (retObj.hasOwnProperty('error')) {
+  if (hasThrowExcept && retObj.hasOwnProperty('error')) {
     throw new CfdError('', retObj.error);
   }
   return retObj;

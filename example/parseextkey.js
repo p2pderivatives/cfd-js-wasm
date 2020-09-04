@@ -4,6 +4,7 @@ const updateField = async function(event) {
 
   let pubkey = '';
   let privkey = '';
+  let extpubkey = '';
   let network = 'testnet';
   if (inputData.value.startsWith('xpub') || inputData.value.startsWith('xprv')) {
     network = 'mainnet';
@@ -25,7 +26,24 @@ const updateField = async function(event) {
         network,
       };
       const resp = await callJsonApi(Module, 'GetPrivkeyFromExtkey', req);
-      privkey = resp.privkey;
+      const wif = resp.privkey;
+
+      const reqHex = {
+        wif,
+      };
+      const respHex = await callJsonApi(Module, 'GetPrivkeyFromWif', reqHex);
+      const hex = respHex.hex;
+      privkey = {
+        wif,
+        hex,
+      };
+
+      const req2 = {
+        extkey: inputData.value,
+        network,
+      };
+      const resp2 = await callJsonApi(Module, 'CreateExtPubkey', req2);
+      extpubkey = resp2.extkey;
     } catch (e) {
     }
   }
@@ -35,8 +53,9 @@ const updateField = async function(event) {
       extkey: inputData.value,
     };
     const resp = await callJsonApi(Module, 'GetExtkeyInfo', req);
-    if (pubkey) resp['pubkey'] = pubkey;
     if (privkey) resp['privkey'] = privkey;
+    if (extpubkey) resp['xpub'] = extpubkey;
+    if (pubkey) resp['pubkey'] = pubkey;
     decoded.value = JSON.stringify(resp, null, '  ');
   } catch (e) {
     decoded.value = 'Invalid script format';
