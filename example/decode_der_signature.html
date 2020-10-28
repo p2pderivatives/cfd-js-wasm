@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Decode DER signature</title>
+    <style>
+      #main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 120vh;
+        font-family: sans-serif;
+      }
+      .decodeInput {
+        width: 99%;
+      }
+      .decodeOutput {
+        width: 99%;
+      }
+      .decodetx-output {
+        vertical-align: top;
+        margin-top: 13px;
+      }
+      h1 {
+        font-size: 32px;
+      }
+      h2 {
+        font-size: 20px;
+        font-weight: bold;
+      }
+      h3 {
+        font-size: 16px;
+        margin-bottom: 0px;
+        padding-bottom: 0px;
+      }
+      .xpubkey-label {
+        font-size: 12px;
+        display: inline-block;
+        width: 8em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="decode">
+      <h3 class="decode-title">Decode DER signature</h3>
+      <div class="decode-input">
+        <div>
+          <div class="decode-label">Input data:</div>
+          <textarea rows="3" id="inputData" class="decodeInput"></textarea><br>
+          <input type="button" name="decode" id="execDecode" value="Parse" />
+        </div>
+        <div class="decode-output">
+          <div class="decode-label">Decoded data:</div>
+          <textarea rows="9" id="decoded" class="decodeOutput" readonly></textarea>
+        </div>
+      </div>
+    </div>
+
+    <script src="/cfd-js-wasm/dist/cfdjs_wasm.js"></script>
+    <script src="/cfd-js-wasm/cfdjs_wasm_jsonapi.js"></script>
+    <script src="decode_der_signature.js"></script>
+    <p><a href="index.html">back</a></p>
+  </body>
+</html>

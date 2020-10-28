@@ -15,6 +15,10 @@ class Helper {
   initialized(func) {
     this.cfdjsModule.addInitializedListener(func);
   }
+
+  hasLoadedWasm() {
+    return this.cfdjsModule.hasLoadedWasm();
+  }
 }
 
 module.exports.default = new Helper();
