@@ -34,7 +34,17 @@ jobs:
           - Second Change
         draft: false
         prerelease: true
-#      continue-on-error: true
+      continue-on-error: true
+    - name: Get release
+      if: steps.create_release.outcome == 'failure'
+      id: get_release
+      uses: bruceadams/get-release@v1.2.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: output url
+      id: output_url
+      run: |
+        echo "::set-output name=upload_url::${{steps.get_release.outputs.upload_url}}${{steps.create_release.outputs.upload_url}}"
     - name: create archive file
       env:
         TAR_NAME: cfdwasm-${{ steps.get_version.outputs.VERSION }}-0.tar
@@ -54,7 +64,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        upload_url: ${{ steps.output_url.outputs.upload_url }}
         asset_path: ./cfd.zip
         asset_name: cfdwasm-${{ steps.get_version.outputs.VERSION }}-0.zip
         asset_content_type: application/zip
@@ -64,7 +74,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         TAR_NAME: cfdwasm-${{ steps.get_version.outputs.VERSION }}-0.tar
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        upload_url: ${{ steps.output_url.outputs.upload_url }}
         asset_path: ./${{ env.TAR_NAME }}.gz
         asset_name: ${{ env.TAR_NAME }}.gz
         asset_content_type: application/gzip

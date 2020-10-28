@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Get asset/amount commitment</title>
+    <style>
+      #main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 120vh;
+        font-family: sans-serif;
+      }
+      .decoderawtxInput {
+        width: 99%;
+      }
+      .input {
+        width: 99%;
+      }
+      .decodeOutput {
+        width: 99%;
+      }
+      .decode-output {
+        vertical-align: top;
+        margin-top: 13px;
+      }
+      h1 {
+        font-size: 32px;
+      }
+      h2 {
+        font-size: 20px;
+        font-weight: bold;
+      }
+      h3 {
+        font-size: 16px;
+        margin-bottom: 0px;
+        padding-bottom: 0px;
+      }
+      .xpubkey-label {
+        font-size: 12px;
+        display: inline-block;
+        width: 8em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="decode">
+      <h3 class="decode-title">Get asset/amount commitment</h3>
+      <div class="decode-input">
+        <div>
+          amount: <input type="number" name="amount" id="amount" value="0" min="0" max="2100000000000000" step="1" /><br>
+          amount blinder: <input type="text" name="vbf" id="vbf" value="" class="input" /><br>
+          asset blinder: <input type="text" name="abf" id="abf" value="" class="input" /><br>
+          asset: <input type="text" name="asset" id="asset" value="" class="input" /><br>
+          <input type="button" name="decode" id="execDecode" value="Encode" />
+        </div>
+        <hr>
+        <div class="decode-output">
+          <div class="decode-label">Result:</div>
+          <textarea rows="5" id="decoded" class="decodeOutput" readonly></textarea>
+        </div>
+      </div>
+    </div>
+
+    <script src="/cfd-js-wasm/dist/cfdjs_wasm.js"></script>
+    <script src="/cfd-js-wasm/cfdjs_wasm_jsonapi.js"></script>
+    <script src="get_commitment.js"></script>
+    <p><a href="index.html">back</a></p>
+ </body>
+</html>

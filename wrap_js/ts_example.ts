@@ -53,7 +53,7 @@ const initFunc = async function() {
     console.log('\n*** Response ***\n', createMultisigResult, '\n');
   }
 
-  let createRawTransactionResult: cfdjs.CreateRawTransactionResponse;
+  let createRawTransactionResult: cfdjs.RawTransactionResponse;
   {
     const fundTxAmt = 5000000000n + (8000n * 2n);
     const txInAmtAlice = 3000000000n; // dummy txin amount
