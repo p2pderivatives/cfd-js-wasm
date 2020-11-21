@@ -1,6 +1,5 @@
 //
 // example.js
-// サンプルコード
 //
 const fs = require('fs');
 const path = require('path');

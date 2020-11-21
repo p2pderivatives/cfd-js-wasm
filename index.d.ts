@@ -180,6 +180,7 @@ export interface BlindIssuanceRequest {
  * @property {bigint | number} minimumRangeValue? - rangeproof minimum value.
  * @property {number} exponent? - An exponential value that guarantees a range of rangeproof.
  * @property {number} minimumBits? - minimum bits of rangeproof.
+ * @property {boolean} collectBlinder? - collect blinder data. (blinders and issuanceBlinders)
  */
 export interface BlindRawTransactionRequest {
     tx: string;
@@ -190,6 +191,19 @@ export interface BlindRawTransactionRequest {
     minimumRangeValue?: bigint | number;
     exponent?: number;
     minimumBits?: number;
+    collectBlinder?: boolean;
+}
+
+/**
+ * The output blind transaction data.
+ * @property {string} hex - transaction hex.
+ * @property {UnblindOutput[]} blinders? - unblind txout
+ * @property {UnblindIssuanceOutput[]} issuanceBlinders? - unblind issuance data
+ */
+export interface BlindTransactionResponse {
+    hex: string;
+    blinders?: UnblindOutput[];
+    issuanceBlinders?: UnblindIssuanceOutput[];
 }
 
 /**
@@ -2283,6 +2297,8 @@ export interface UnblindIssuance {
  * @property {bigint} assetamount? - asset amount
  * @property {string} token? - token
  * @property {bigint} tokenamount? - token amount
+ * @property {string} assetValueBlindFactor? - asset amount blind factor
+ * @property {string} tokenValueBlindFactor? - token amount blind factor
  */
 export interface UnblindIssuanceOutput {
     txid: string;
@@ -2291,6 +2307,8 @@ export interface UnblindIssuanceOutput {
     assetamount?: bigint;
     token?: string;
     tokenamount?: bigint;
+    assetValueBlindFactor?: string;
+    tokenValueBlindFactor?: string;
 }
 
 /**
@@ -2573,9 +2591,9 @@ export class Cfdjs {
     /**
      * blind the transaction.
      * @param {BlindRawTransactionRequest} jsonObject - request data.
-     * @return {Promise<RawTransactionResponse>} - response data.
+     * @return {Promise<BlindTransactionResponse>} - response data.
      */
-    BlindRawTransaction(jsonObject: BlindRawTransactionRequest): Promise<RawTransactionResponse>;
+    BlindRawTransaction(jsonObject: BlindRawTransactionRequest): Promise<BlindTransactionResponse>;
     /**
      * calculate ec signature.
      * @param {CalculateEcSignatureRequest} jsonObject - request data.
