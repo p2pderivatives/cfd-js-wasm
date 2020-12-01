@@ -1,6 +1,6 @@
 {
   "name": "cfd-js-wasm",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "domain": "p2pderivatives",
   "repository": {
     "type": "git",
@@ -52,7 +52,7 @@
     "lint_check:darwin": "cd tools && ./lint_quiet.sh",
     "eslint_check": "eslint --ext .js,.ts *.js wrap_js/",
     "check_local": "run-p doxygen_dev format_cpp_all format_js_all",
-    "check": "run-p doxygen_check lint_all example elements_example ts_example",
+    "check": "run-p doxygen_check lint_all example elements_example ts_example test",
     "convert_json": "ts-node ./tools/generate_json_map_class.ts",
     "convert_json_debug": "ts-node ./tools/generate_json_map_class.ts mode=debug"
   },
