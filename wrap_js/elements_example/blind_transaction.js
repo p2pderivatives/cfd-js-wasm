@@ -190,6 +190,7 @@ const example = async function() {
       JSON.stringify(decodeTx, (key, value) =>
           typeof value === 'bigint' ? value.toString() : value, '  '));
 
+  console.log(`\n*** blindingKey ***\n`, blindingKey);
   const unblindTx = await GetResponse(UnblindRawTransaction({
     tx: signedTx.hex,
     txouts: [{

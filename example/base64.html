@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>encode/decode base64</title>
+    <style>
+      #main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 120vh;
+        font-family: sans-serif;
+      }
+      .decoderawtxInput {
+        width: 99%;
+      }
+      .input {
+        width: 99%;
+      }
+      .decodeOutput {
+        width: 99%;
+      }
+      .decode-output {
+        vertical-align: top;
+        margin-top: 13px;
+      }
+      h1 {
+        font-size: 32px;
+      }
+      h2 {
+        font-size: 20px;
+        font-weight: bold;
+      }
+      h3 {
+        font-size: 16px;
+        margin-bottom: 0px;
+        padding-bottom: 0px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="decode">
+      <h3 class="decode-title">encode/decode base64</h3>
+      <div class="decode-input">
+        <div>
+          type: <select name="base64_type" id="base64_type">
+          <option value="encode">encode</option>
+          <option value="decode">decode</option>
+          </select><br>
+          text:<br>
+          <textarea rows="8" name="message" id="message" class="input"></textarea><br>
+
+          <input type="button" name="decode" id="execDecode" value="Execute" />
+        </div>
+        <div class="decode-output">
+          <div class="decode-label">Result:</div>
+          <textarea rows="8" id="decoded" class="decodeOutput" readonly></textarea>
+        </div>
+      </div>
+    </div>
+
+    <script src="/cfd-js-wasm/dist/cfdjs_wasm.js"></script>
+    <script src="/cfd-js-wasm/cfdjs_wasm_jsonapi.js"></script>
+    <script src="base64.js"></script>
+    <p><a href="index.html">back</a></p>
+ </body>
+</html>
