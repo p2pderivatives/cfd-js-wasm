@@ -55,7 +55,14 @@ const updateField = async function(event) {
     const resp = await callJsonApi(Module, 'GetExtkeyInfo', req);
     if (privkey) resp['privkey'] = privkey;
     if (extpubkey) resp['xpub'] = extpubkey;
-    if (pubkey) resp['pubkey'] = pubkey;
+    if (pubkey) {
+      resp['pubkey'] = pubkey;
+      const scReq = {
+        pubkey: pubkey,
+      };
+      const scResp = await callJsonApi(Module, 'GetSchnorrPubkeyFromPubkey', scReq);
+      resp['schnorrPubkey'] = scResp.pubkey;
+    }
     decoded.value = JSON.stringify(resp, null, '  ');
   } catch (e) {
     decoded.value = 'Invalid script format';

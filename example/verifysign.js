@@ -35,7 +35,7 @@ const updateField = async function(event) {
   if (value.value.length == 66) {
     commitment = value.value;
   } else {
-    amount = parseInt(value.value);
+    amount = parseInt(value.value) || 0;
   }
 
   try {

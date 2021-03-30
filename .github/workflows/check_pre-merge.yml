@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-18.04
     strategy:
       matrix:
-        node: [8, 12, 14, 15]
+        node: [12, 14, 15]
 
     steps:
     - uses: actions/checkout@v2
@@ -74,7 +74,7 @@ jobs:
       if: matrix.node != 8
       run: npm run ts_example
     - name: lint_check
-      if: runner.os != 'macOS'
+      if: matrix.node != 8
       run: npm run lint_all
 
   doxygen-ubuntu:

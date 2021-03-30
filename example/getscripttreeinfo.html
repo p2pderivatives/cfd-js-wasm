@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Get ScriptTreeInfo from string</title>
+    <style>
+      #main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 120vh;
+        font-family: sans-serif;
+      }
+      .input {
+        width: 99%;
+      }
+      .decoderawtxOutput {
+        width: 99%;
+      }
+      .decodetx-output {
+        vertical-align: top;
+        margin-top: 13px;
+      }
+      h1 {
+        font-size: 32px;
+      }
+      h2 {
+        font-size: 20px;
+        font-weight: bold;
+      }
+      h3 {
+        font-size: 16px;
+        margin-bottom: 0px;
+        padding-bottom: 0px;
+      }
+      .xpubkey-label {
+        font-size: 12px;
+        display: inline-block;
+        width: 8em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="decodetx">
+      <h3 class="decodetx-title">Get ScriptTreeInfo from string</h3>
+      <div class="decodetx-input">
+        <div>
+          network: <select name="network" id="network">
+          <option value="mainnet">mainnet</option>
+          <option value="testnet">testnet</option>
+          <option value="regtest">regtest</option>
+          </select><br>
+          <!-- tree -->
+          Tree String:<br>
+          <textarea rows="4" name="tree" id="tree" class="input"></textarea><br>
+          <!-- script -->
+          Target Script:<br>
+          <textarea rows="2" name="script" id="script" class="input"></textarea><br>
+          <!-- Target branches -->
+          Target Branches: (separate with a space or line feed)<br>
+          <textarea rows="2" name="branches" id="branches" class="input"></textarea><br>
+          <!-- Internal Pubkey -->
+          Internal Schnorr(x-only) Pubkey:<br>
+          <textarea rows="2" name="pubkey" id="pubkey" class="input"></textarea><br>
+          <!-- Internal Privkey -->
+          Internal Privkey:<br>
+          <textarea rows="2" name="privkey" id="privkey" class="input"></textarea><br>
+
+          <input type="button" name="decode" id="execDecode" value="Execute" />
+        </div>
+        <div class="decodetx-output">
+          <div class="decodetx-label">Result:</div>
+          <textarea rows="20" id="decoded" class="decoderawtxOutput" readonly></textarea>
+        </div>
+      </div>
+    </div>
+
+    <script src="/cfd-js-wasm/dist/cfdjs_wasm.js"></script>
+    <script src="/cfd-js-wasm/cfdjs_wasm_jsonapi.js"></script>
+    <script src="getscripttreeinfo.js"></script>
+    <p><a href="index.html">back</a></p>
+  </body>
+</html>

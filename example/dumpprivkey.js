@@ -41,6 +41,10 @@ const updateField = async function(event) {
     };
     const resp = await callJsonApi(Module, 'GetPubkeyFromPrivkey', req);
     privkeyInfo['pubkey'] = resp.pubkey;
+
+    const schnorrResp = await callJsonApi(Module, 'GetSchnorrPubkeyFromPrivkey', req);
+    privkeyInfo['schnorrPubkey'] = schnorrResp;
+
     decoded.value = JSON.stringify(privkeyInfo, null, '  ');
   } catch (e) {
     decoded.value = 'Invalid privkey format';

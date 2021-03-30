@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ -n "$WASM_SRC" ]; then
 BASEDIR=$WASM_SRC
@@ -47,6 +47,8 @@ if [ $? -gt 0 ]; then
   echo "change directory NG."
   exit 1
 fi
+
+source /root/emsdk/emsdk_env.sh
 
 echo "configure start."
 

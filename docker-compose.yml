@@ -6,7 +6,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      target: cfdWasmBuilder
+      target: cfd_wasm_builder
     environment:
       WASM_SRC: /private/cfd-js-wasm
       WASM_WORK: /private/work/cfd-js-wasm
