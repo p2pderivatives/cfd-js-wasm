@@ -20,6 +20,8 @@ const updateField = async function(event) {
   let keyType = 'redeem_script';
   if (hashType.indexOf('pkh') > 0) {
     keyType = 'pubkey';
+  } else if (hashType == 'taproot') {
+    keyType = 'pubkey';
   }
   let addrInfo;
   try {
