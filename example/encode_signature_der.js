@@ -1,20 +1,21 @@
 const updateField = async function(event) {
   const decoded = document.getElementById("decoded");
   let signature = document.getElementById("signature").value;
-  const typeObj = document.getElementById("type");
+  const isAnyoneCanPay = document.getElementById("anyonecanpay").checked;
+  const isRangeproof = document.getElementById("rangeproof").checked;
   const sighashtypeObj = document.getElementById("sighashtype");
   const sighashtypeIdx = sighashtypeObj.selectedIndex;
   let sighashType = sighashtypeObj.options[sighashtypeIdx].value;
-  let sighashAnyoneCanPay = false;
-
-  if (sighashType.indexOf('_anyonecanpay') >= 0) {
-    sighashType = sighashType.replace('_anyonecanpay', '');
-    sighashAnyoneCanPay = true;
+  if (isAnyoneCanPay) {
+    sighashType = sighashType + '|anyonecanpay';
+  }
+  if (isRangeproof) {
+    sighashType = sighashType + '|rangeproof';
   }
 
   try {
     const req = {
-      signature, sighashType, sighashAnyoneCanPay,
+      signature, sighashType,
     };
     const resp = await callJsonApi(Module, 'EncodeSignatureByDer', req);
     decoded.value = JSON.stringify(resp, null, '  ');
