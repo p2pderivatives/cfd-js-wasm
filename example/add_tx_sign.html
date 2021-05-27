@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Add Tx Sign</title>
+    <style>
+      #main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 120vh;
+        font-family: sans-serif;
+      }
+      .decoderawtxInput {
+        width: 99%;
+      }
+      .input {
+        width: 99%;
+      }
+      .decodeOutput {
+        width: 99%;
+      }
+      .decode-output {
+        vertical-align: top;
+        margin-top: 13px;
+      }
+      h1 {
+        font-size: 32px;
+      }
+      h2 {
+        font-size: 20px;
+        font-weight: bold;
+      }
+      h3 {
+        font-size: 16px;
+        margin-bottom: 0px;
+        padding-bottom: 0px;
+      }
+      .xpubkey-label {
+        font-size: 12px;
+        display: inline-block;
+        width: 8em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="decode">
+      <h3 class="decode-title">Add Tx Sign</h3>
+      <div class="decode-input">
+        <div>
+          network: <select name="network" id="network">
+          <option value="mainnet">mainnet</option>
+          <option value="testnet">testnet</option>
+          <option value="regtest">regtest</option>
+          <option value="liquidv1">liquidv1</option>
+          <option value="elementsregtest">elementsRegTest</option>
+          </select><br>
+          <div class="decodetx-label">Input tx hex:</div>
+          <textarea rows="10" id="inputTx" class="input"></textarea><br>
+          <!-- txid:vout -->
+          txid: <input type="text" name="txid" id="txid" value="" class="input" /><br>
+          vout: <input type="number" name="vout" id="vout" value="0" min="0" max="2147483647" step="1" /><br>
+          addressType: <select name="type" id="type">
+          <option value="p2pkh">p2pkh</option>
+          <option value="p2sh-p2wpkh">p2sh-p2wpkh</option>
+          <option value="p2wpkh" selected>p2wpkh</option>
+          <option value="p2sh">p2sh</option>
+          <option value="p2sh-p2wsh">p2sh-p2wsh</option>
+          <option value="p2wsh">p2wsh</option>
+          </select><br>
+          <!-- descriptor -->
+          Pubkey or RedeemScript or OutputDescriptor:<br>
+          <textarea rows="2" name="script" id="script" class="input"></textarea><br>
+          <!-- value/commitment -->
+          scriptsig or witnessStack: (separate with a space or line feed)<br>
+          <textarea rows="5" name="stack" id="stack" class="input"></textarea><br>
+
+          <input type="button" name="decode" id="execDecode" value="Execute" />
+        </div>
+        <div class="decode-output">
+          <div class="decode-label">Output signed tx hex:</div>
+          <textarea rows="10" id="decoded" class="decodeOutput" readonly></textarea>
+        </div>
+      </div>
+    </div>
+
+    <script src="/cfd-js-wasm/dist/cfdjs_wasm.js"></script>
+    <script src="/cfd-js-wasm/cfdjs_wasm_jsonapi.js"></script>
+    <script src="add_tx_sign.js"></script>
+    <p><a href="index.html">back</a></p>
+ </body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sign ECDSA</title>
+    <style>
+      #main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 120vh;
+        font-family: sans-serif;
+      }
+      .decoderawtxInput {
+        width: 99%;
+      }
+      .input {
+        width: 99%;
+      }
+      .decodeOutput {
+        width: 99%;
+      }
+      .decode-output {
+        vertical-align: top;
+        margin-top: 13px;
+      }
+      h1 {
+        font-size: 32px;
+      }
+      h2 {
+        font-size: 20px;
+        font-weight: bold;
+      }
+      h3 {
+        font-size: 16px;
+        margin-bottom: 0px;
+        padding-bottom: 0px;
+      }
+      .xpubkey-label {
+        font-size: 12px;
+        display: inline-block;
+        width: 8em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="decode">
+      <h3 class="decode-title">Sign ECDSA</h3>
+      <div class="decode-input">
+        <div>
+          <!-- SigHash -->
+          SigHash: <input type="text" name="sighash" id="sighash" value="" class="input" /><br>
+          <!-- privkey -->
+          Privkey: <input type="text" name="privkey" id="privkey" value="" class="input" /><br>
+          <input type="checkbox" name="der_encode" id="der_encode" value="1" /> Encode DER <br>
+          <div class="decode-der">
+            SigHash type: <select name="sighashtype" id="sighashtype">
+            <option value="all">All</option>
+            <option value="none">None</option>
+            <option value="single">Single</option>
+            </select><br>
+            <input type="checkbox" name="anyonecanpay" id="anyonecanpay" value="1" /> SigHash AnyoneCanPay <br>
+            <input type="checkbox" name="rangeproof" id="rangeproof" value="1" /> SigHash Rangeproof <br>
+          </div>
+
+          <input type="button" name="decode" id="execDecode" value="Execute" />
+        </div>
+        <div class="decode-output">
+          <div class="decode-label">Output tx:</div>
+          <textarea rows="5" id="decoded" class="decodeOutput" readonly></textarea>
+        </div>
+      </div>
+    </div>
+
+    <script src="/cfd-js-wasm/dist/cfdjs_wasm.js"></script>
+    <script src="/cfd-js-wasm/cfdjs_wasm_jsonapi.js"></script>
+    <script src="sign_ecdsa.js"></script>
+    <p><a href="index.html">back</a></p>
+ </body>
+</html>
