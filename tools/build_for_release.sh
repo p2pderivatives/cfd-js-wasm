@@ -48,7 +48,7 @@ if [ $? -gt 0 ]; then
   exit 1
 fi
 
-source /root/emsdk/emsdk_env.sh
+source /emscripten/emsdk/emsdk_env.sh
 
 echo "configure start."
 

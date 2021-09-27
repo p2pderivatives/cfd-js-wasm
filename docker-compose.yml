@@ -1,4 +1,4 @@
-version: '3.5'
+version: '3.8'
 
 services:
   wasm-build:
@@ -15,3 +15,17 @@ services:
       - /private/work
       - .:/private/cfd-js-wasm
     entrypoint: /private/cfd-js-wasm/tools/build_for_release.sh
+
+  wasm-test:
+    image: ghcr.io/cryptogarageinc/elements-testing:v0.1.0
+    volumes:
+      - ./:/workspace
+    working_dir: /workspace
+    command: /bin/bash -c "npm install && npm run test_example"
+
+  wasm-update-package-lock:
+    image: ghcr.io/cryptogarageinc/elements-testing:v0.1.0
+    volumes:
+      - ./:/workspace
+    working_dir: /workspace
+    command: /bin/bash -c "./tools/update_package.sh"

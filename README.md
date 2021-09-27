@@ -70,12 +70,12 @@ Copy cfdjs_wasm_jsonapi.js if necessary.
 
 Add github's cfd-js-wasm path on caller app's package.json:
 ```
-  "cfd-js-wasm": "github:p2pderivatives/cfd-js-wasm#semver:^0.3.0",
+  "cfd-js-wasm": "github:p2pderivatives/cfd-js-wasm#semver:^0.3.2",
 ```
 
 If you use old npm or yarn, describe as follows:
 ```
-  "cfd-js-wasm": "git+https://github.com/p2pderivatives/cfd-js-wasm#semver:^0.3.0",
+  "cfd-js-wasm": "git+https://github.com/p2pderivatives/cfd-js-wasm#semver:^0.3.2",
 ```
 
 ---

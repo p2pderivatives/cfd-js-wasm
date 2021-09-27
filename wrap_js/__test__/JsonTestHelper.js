@@ -66,7 +66,7 @@ class TestHelper {
           await sleep(100);
         }
         cfd = helper.getCfdjs();
-      });
+      }, 15000);
 
       for (const testData of testTargets) {
         if (!testData) continue;
@@ -102,7 +102,7 @@ class TestHelper {
             testFunc = createTestFunc(helper);
             testCheckFunc = createCheckFunc(helper, testData.name);
             await setupFunc();
-          });
+          }, 15000);
           it(testCaseName, async () => {
             let resp;
             try {
@@ -117,7 +117,7 @@ class TestHelper {
               }
             }
             await Promise.resolve(testCheckFunc(resp, testCase.expect, testCase.error, cfd));
-          });
+          }, 15000);
           afterEach(async () => {
             await teardownFunc();
           });

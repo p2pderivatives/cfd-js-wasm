@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Create Raw Transaction</title>
+    <style>
+      #main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 120vh;
+        font-family: sans-serif;
+      }
+      .decoderawtxInput {
+        width: 99%;
+      }
+      .input {
+        width: 99%;
+      }
+      .createOutput {
+        width: 99%;
+      }
+      .create-output {
+        vertical-align: top;
+        margin-top: 13px;
+      }
+      h1 {
+        font-size: 32px;
+      }
+      h2 {
+        font-size: 20px;
+        font-weight: bold;
+      }
+      h3 {
+        font-size: 16px;
+        margin-bottom: 0px;
+        padding-bottom: 0px;
+      }
+      .xpubkey-label {
+        font-size: 12px;
+        display: inline-block;
+        width: 8em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="decode">
+      <h3 class="decode-title">Create Raw Transaction</h3>
+      <div class="decode-input">
+        <div>
+          network: <select name="network" id="network">
+          <option value="mainnet">mainnet</option>
+          <option value="testnet">testnet</option>
+          <option value="regtest">regtest</option>
+          <option value="liquidv1">liquidv1</option>
+          <option value="elementsregtest">elementsRegTest</option>
+          </select><br>
+          <input type="checkbox" name="blind" id="blind" value="1" /> Blind (Elements Only) <br>
+
+          <hr>
+          <div class="tx-header">
+            tx version: <input type="number" name="version" id="version" value="2" min="0" max="2147483647" step="1" /><br>
+            lock time: <input type="number" name="locktime" id="locktime" value="0" min="0" max="4294967295" step="1" /><br>
+          </div>
+
+          <hr>
+          <div>
+            Vin: <input type="button" name="addInput" id="addInput" value="Add" />
+            <ol class="tx-input" id="tx-input">
+            <li>
+                txid:<br>
+                <textarea rows="1" name="txid1" id="txid1" class="input"></textarea><br>
+                vout: <input type="number" name="vout1" id="vout1" value="0" min="0" max="536870911" step="1" /><br>
+                sequence number: <input type="number" name="sequence1" id="sequence1" value="4294967295" min="0" max="4294967295" step="1" /><br>
+                amount: <input type="number" name="amount1" id="amount1" value="0" min="0" max="2100000000000000" step="1" /><br>
+                <div id="elementsInput1" style="display:none">
+                  asset:<br>
+                  <textarea rows="1" name="asset1" id="asset1" class="input"></textarea><br>
+                  amount blinder:<br>
+                  <textarea rows="1" name="vbf1" id="vbf1" class="input"></textarea><br>
+                  asset blinder:<br>
+                  <textarea rows="1" name="abf1" id="abf1" class="input"></textarea><br>
+                </div>
+            </ol>
+          </div>
+
+          <hr>
+          <div>
+            Vout: <input type="button" name="addOutput" id="addOutput" value="Add" />
+            <ol class="tx-output" id="tx-output">
+            <li>
+                address:<br>
+                <textarea rows="2" name="out_address1" id="out_address1" class="input"></textarea><br>
+                amount: <input type="number" name="out_amount1" id="out_amount1" value="0" min="0" max="2100000000000000" step="1" /><br>
+                <div id="elementsOutput1" style="display:none">
+                  asset:<br>
+                  <textarea rows="1" name="out_asset1" id="out_asset1" class="input"></textarea><br>
+                  nonce:<br>
+                  <textarea rows="1" name="out_nonce1" id="out_nonce1" class="input"></textarea><br>
+                </div>
+                (locking script):<br>
+                <textarea rows="1" name="out_script1" id="out_script1" class="input"></textarea><br>
+            </ol>
+          </div>
+          <hr>
+          <input type="button" name="create" id="execCreate" value="Create" />
+        </div>
+        <div class="create-output">
+          <div class="create-label">Result:</div>
+          <textarea rows="7" id="created" class="createOutput" readonly></textarea>
+        </div>
+      </div>
+    </div>
+
+    <script src="/cfd-js-wasm/dist/cfdjs_wasm.js"></script>
+    <script src="/cfd-js-wasm/cfdjs_wasm_jsonapi.js"></script>
+    <script src="createtx.js"></script>
+    <p><a href="index.html">back</a></p>
+ </body>
+</html>
