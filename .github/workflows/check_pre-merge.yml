@@ -7,6 +7,7 @@ on:
     - develop
     - features/sprint*
     - stable_v*
+    - test_ci
   pull_request:
     branches:
     - master
@@ -18,14 +19,21 @@ jobs:
   wasm-test:
     name: wasm test
     timeout-minutes: 30
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
-        node: [12, 14, 16]
+        node: [16, 18, 19, 20]
+        include:
+          - node: 18
+            addopt: 'true'
+          - node: 19
+            addopt: 'true'
+          - node: 20
+            addopt: 'true'
 
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v2.1.2
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
       timeout-minutes: 1
       with:
         node-version: ${{ matrix.node }}
@@ -33,11 +41,11 @@ jobs:
       id: node_ver
       run: |
         export node_ver="$(node --version)"
-        echo "::set-output name=node_version::$node_ver"
+        echo "node_version=$node_ver" >> $GITHUB_OUTPUT
         echo "node_version=$node_ver"
       shell: bash
     - name: node_modules-useCache
-      uses: actions/cache@v1
+      uses: actions/cache@v3
       id: node_cache
       with:
         path: node_modules
@@ -48,10 +56,10 @@ jobs:
       id: npm_info
       run: |
         npm --version
-        echo "::set-output name=npm_cachedir::$(npm config get cache)"
+        echo "npm_cachedir=$(npm config get cache)" >> $GITHUB_OUTPUT
     - name: use npm cache
       if: steps.node_cache.outputs.cache-hit != 'true'
-      uses: actions/cache@v1
+      uses: actions/cache@v3
       id: npm_cache
       with:
         path: ${{ steps.npm_info.outputs.npm_cachedir }}
@@ -66,22 +74,36 @@ jobs:
         npm set progress=false
         npm ci
     - name: test
+      if: matrix.addopt != 'true'
       run: npm run test
+    - name: test for nodejs 18 or higher
+      if: matrix.addopt == 'true'
+      run: NODE_OPTIONS="--no-experimental-fetch" npm run test
     - name: example
+      if: matrix.addopt != 'true'
       run: |
         npm run example
         npm run elements_example
+    - name: example for nodejs 18 or higher
+      if: matrix.addopt == 'true'
+      run: |
+        NODE_OPTIONS="--no-experimental-fetch" npm run example
+        NODE_OPTIONS="--no-experimental-fetch" npm run elements_example
     - name: ts example
+      if: matrix.addopt != 'true'
       run: npm run ts_example
+    - name: ts example for nodejs 18 or higher
+      if: matrix.addopt == 'true'
+      run: NODE_OPTIONS="--no-experimental-fetch" npm run ts_example
     - name: lint_check
       run: npm run lint_all
 
   doxygen-ubuntu:
     name: doxygen-ubuntu
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: install_doxygen
       run: sudo apt install doxygen graphviz
     - name: doxygen_check
