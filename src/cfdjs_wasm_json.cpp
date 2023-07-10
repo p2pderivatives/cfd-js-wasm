@@ -150,6 +150,7 @@ std::string GetJsonApiNames() {
 /**
  * @brief free string buffer.
  * @param[in] str   string buffer.
+ * @return void
  */
 EMSCRIPTEN_KEEPALIVE extern "C" void cfdjsFreeString(char* str) {
   if (str != nullptr) {
